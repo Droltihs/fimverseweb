@@ -12,7 +12,12 @@
             <div class="nav-brand">
                 <h1>FIMVERSE</h1>
             </div>
-            <div class="nav-links">
+            <div class="hamburger-menu" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="nav-links">
                 <a href="/home" class="nav-link active">Home</a>
                 <a href="/schedule" class="nav-link">Schedule</a>
                 <a href="/discography" class="nav-link">Discography</a>
@@ -102,6 +107,23 @@
             document.getElementById('member-birthday').textContent = members[idx].birthday;
             updateButtons();
         }, 3000);
+        
+        // Hamburger menu functionality
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
         </script>
     </footer>
 </body>
