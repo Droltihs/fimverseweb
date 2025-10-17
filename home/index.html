@@ -108,7 +108,6 @@
             updateButtons();
         }, 3000);
         
-        // Hamburger menu functionality
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
         
@@ -117,7 +116,6 @@
             navLinks.classList.toggle('active');
         });
         
-        // Close menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');

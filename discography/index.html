@@ -26,6 +26,10 @@
         </nav>
     </header>
     <main>
+        <div class="rotating-bg-text">
+            <span>LE SSERAFIM LE SSERAFIM LE SSERAFIM</span>
+            <span class="outline-text">LE SSERAFIM LE SSERAFIM LE SSERAFIM</span>
+        </div>
         <section class="coming-soon">
             <div class="coming-soon-container">
                 <h2>LE SSERAFIM Discography</h2>
@@ -37,10 +41,8 @@
         </section>
     </main>
     <footer>
-        <p>&copy; 2025 FIMVERSE. All rights reserved.</p>
     </footer>
     <script>
-        // Hamburger menu functionality
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
         
@@ -49,7 +51,6 @@
             navLinks.classList.toggle('active');
         });
         
-        // Close menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');

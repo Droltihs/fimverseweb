@@ -318,6 +318,10 @@
         </nav>
     </header>
     <main>
+        <div class="rotating-bg-text">
+            <span>LE SSERAFIM LE SSERAFIM LE SSERAFIM</span>
+            <span class="outline-text">LE SSERAFIM LE SSERAFIM LE SSERAFIM</span>
+        </div>
         <section class="schedule">
             <h2>LE SSERAFIM Schedule</h2>
             
@@ -345,7 +349,6 @@
     </main>
 
     <script>
-        // Firebase database URL for real LE SSERAFIM event data
         const DB_URL = 'https://le-sserafim-schedule-default-rtdb.firebaseio.com/events.json';
 
         let allEvents = [];
@@ -353,7 +356,6 @@
         let currentFilter = 'all';
         let countdownIntervals = {};
 
-        // Member birthday events
         const birthdayEvents = [
             {
                 id: 'birthday-chaewon',
@@ -417,7 +419,6 @@
             }
         ];
 
-        // Korean Standard Time utilities
         const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
         function toKSTInstant(event) {
@@ -491,31 +492,25 @@
         }
 
         function startCountdownTimer(eventId) {
-            // Clear existing interval
             if (countdownIntervals[eventId]) {
                 clearInterval(countdownIntervals[eventId]);
             }
             
-            // Start new interval
             countdownIntervals[eventId] = setInterval(() => {
                 updateCountdown(eventId);
-            }, 60000); // Update every minute
-        }
+            }, 60000); 
 
         function filterEvents() {
             const now = new Date();
             let events = [...allEvents];
             
-            // Add only the next upcoming birthday for each member (no duplicates)
             birthdayEvents.forEach(birthdayEvent => {
                 const [year, month, day] = birthdayEvent.date.split('-').map(Number);
                 const currentYear = now.getFullYear();
                 
-                // Check if this year's birthday has passed
                 const thisYearBirthday = new Date(currentYear, month - 1, day);
                 const nextYearBirthday = new Date(currentYear + 1, month - 1, day);
                 
-                // Use this year's birthday if it hasn't passed, otherwise next year's
                 const nextBirthday = thisYearBirthday >= now ? thisYearBirthday : nextYearBirthday;
                 const yearToUse = nextBirthday.getFullYear();
                 
@@ -543,7 +538,7 @@
                         const eventDate = new Date(eventTime);
                         return eventDate.toDateString() === today.toDateString();
                     default:
-                        return eventTime > now; // Only show upcoming events by default
+                        return eventTime > now; 
                 }
             }).sort((a, b) => {
                 const timeA = toKSTInstant(a);
@@ -569,7 +564,6 @@
                 const rawData = await response.json();
                 
                 if (rawData) {
-                    // Convert Firebase object to array format
                     const eventsArray = Object.entries(rawData)
                         .map(([key, event]) => ({ 
                             id: key, 
@@ -598,7 +592,6 @@
             } catch (error) {
                 console.error('❌ Error fetching events:', error);
                 
-                // Show error message
                 container.innerHTML = `
                     <div class="empty-state">
                         <h3>Unable to Load Events</h3>
@@ -693,7 +686,6 @@
                     </div>
                 `;
                 
-                // Start countdown timer for this event
                 setTimeout(() => startCountdownTimer(event.id), 100);
             });
             
@@ -719,11 +711,9 @@
                     url: window.location.href
                 });
             } else {
-                // Fallback: copy to clipboard
                 navigator.clipboard.writeText(shareText).then(() => {
                     alert('Event details copied to clipboard!');
                 }).catch(() => {
-                    // Final fallback: show in alert
                     alert(shareText);
                 });
             }
@@ -744,7 +734,6 @@
             icon.innerHTML = '<div class="loading-spinner"></div>';
             btn.disabled = true;
             
-            // Fetch fresh data from Firebase
             fetchEvents(true).finally(() => {
                 btn.classList.remove('loading');
                 icon.innerHTML = '🔄';
@@ -752,34 +741,28 @@
             });
         }
 
-        // Filter functionality
         document.addEventListener('DOMContentLoaded', function() {
             const filterButtons = document.querySelectorAll('.filter-btn');
             
             filterButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Update active state
                     filterButtons.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Update filter and re-render
                     currentFilter = this.dataset.filter;
                     renderSchedule();
                 });
             });
             
-            // Initial data fetch
             fetchEvents();
         });
 
-        // Cleanup intervals when page unloads
         window.addEventListener('beforeunload', function() {
             Object.values(countdownIntervals).forEach(interval => {
                 clearInterval(interval);
             });
         });
         
-        // Hamburger menu functionality
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
         
@@ -788,7 +771,6 @@
             navLinks.classList.toggle('active');
         });
         
-        // Close menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');

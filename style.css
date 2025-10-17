@@ -7,7 +7,8 @@
   position: relative;
   width: 100%;
   max-width: 100vw;
-  overflow: hidden;
+  overflow: visible;
+  min-height: 70vh;
 }
 
 .rotating-bg-text {
@@ -15,13 +16,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   width: 100vw;
-  overflow: hidden;
+  overflow: visible;
 }
 .rotating-bg-text span {
-  font-size: 120px;
+  font-size: clamp(60px, 15vw, 120px);
   font-weight: 900;
   color: #e0e7ff;
   opacity: 0.5;
@@ -59,14 +60,16 @@
 .fearless-text {
   position: absolute;
   top: 50%;
-  left: 30px;
-  z-index: 1;
+  left: clamp(10px, 3vw, 30px);
+  z-index: 2;
   pointer-events: none;
   transform: translateY(-50%);
+  width: auto;
+  overflow: visible;
 }
 
 .fearless-text span {
-  font-size: 90px;
+  font-size: clamp(40px, 10vw, 90px);
   font-weight: 900;
   color: transparent;
   -webkit-text-stroke: 1px #e0e7ff;
@@ -76,6 +79,7 @@
   display: block;
   text-align: center;
   line-height: 0.8;
+  height: auto;
 }
 
 @keyframes moveVertical {
@@ -111,15 +115,15 @@
 
 .rotating-member h3 {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: clamp(10px, 3vw, 20px);
+  left: clamp(10px, 3vw, 20px);
   margin: 0;
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
   color: #ffffff;
   font-weight: 600;
   letter-spacing: 0.05em;
   background: rgba(0, 0, 0, 0.6);
-  padding: 0.5rem 1rem;
+  padding: clamp(0.4rem, 2vw, 0.5rem) clamp(0.8rem, 3vw, 1rem);
   border-radius: 0;
   border: 1px solid #ffffff;
   z-index: 2;
@@ -127,31 +131,31 @@
 
 .member-description {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  bottom: clamp(10px, 3vw, 20px);
+  right: clamp(10px, 3vw, 20px);
   background: rgba(0, 0, 0, 0.8);
   color: #ffffff;
-  padding: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
   border-radius: 0;
   border: 1px solid #ffffff;
-  max-width: 70%;
+  max-width: clamp(80%, 70vw, 70%);
   text-align: center;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   line-height: 1.5;
   z-index: 2;
 }
 
 .member-birthday {
   position: absolute;
-  bottom: -7rem;
-  left: -30px;
+  bottom: clamp(-9rem, -15vw, -7rem);
+  left: clamp(-40px, -5vw, -30px);
   background: rgba(0, 0, 0, 0.8);
   color: #ffffff;
-  padding: 1rem 2rem;
+  padding: clamp(0.8rem, 3vw, 1rem) clamp(1.5rem, 4vw, 2rem);
   border-radius: 0;
   border: 1px solid #ffffff;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
   font-weight: bold;
   z-index: 2;
 }
@@ -336,7 +340,6 @@
 }
 
 @media (max-width: 480px) {
-  /* Extra Small Screen Navigation */
   .navbar {
     padding: 0.8rem;
   }
@@ -354,7 +357,6 @@
     padding: 0.3rem 0.6rem;
   }
   
-  /* Hero Section Extra Small */
   .hero h1 {
     font-size: 2rem;
   }
@@ -363,16 +365,15 @@
     font-size: 0.9rem;
   }
   
-  /* Member Buttons Extra Small */
   .member-buttons {
     bottom: 0.5vh;
     padding: 0 0.5vw;
   }
   
   .member-btn {
-    width: 35px;
-    height: 35px;
-    font-size: 10px;
+    width: clamp(30px, 8vw, 35px);
+    height: clamp(30px, 8vw, 35px);
+    font-size: clamp(8px, 2vw, 10px);
   }
   
   .member-btn::after {
@@ -393,16 +394,15 @@
     width: 100%;
   }
   
-  /* Rotating Text Extra Small */
   .rotating-bg-text span {
     font-size: 40px;
   }
   
   .fearless-text {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 6vw, 2.5rem);
   }
   
-  /* Schedule Extra Small */
+  /* Schedule */
   .filter-btn {
     padding: 0.5rem 0.8rem;
     font-size: 0.7rem;
@@ -425,7 +425,6 @@
     padding: 0.2rem 0.4rem;
   }
   
-  /* Coming Soon Extra Small */
   .coming-soon h2 {
     font-size: 1.8rem;
   }
@@ -450,7 +449,6 @@ html, body {
   font-family: 'Montserrat', Arial, sans-serif;
   background: #222;
   color: #fff;
-  /* Mobile optimizations */
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -460,12 +458,10 @@ html, body {
   max-width: 100vw;
 }
 
-/* Mobile Touch Optimization */
 * {
   box-sizing: border-box;
 }
 
-/* Prevent horizontal scroll on all elements */
 *, *::before, *::after {
   max-width: 100%;
 }
@@ -477,16 +473,14 @@ html, body {
 }
 
 a, button, .nav-link, .filter-btn, .member-btn {
-  /* Ensure minimum touch target size */
   min-height: 44px;
   min-width: 44px;
   touch-action: manipulation;
   -webkit-tap-highlight-color: rgba(139, 95, 191, 0.3);
 }
 
-/* Prevent zoom on input focus on iOS */
 input, select, textarea {
-  font-size: 16px;
+  font-size: clamp(14px, 3vw, 16px);
 }
 
 .main-bg {
@@ -520,12 +514,12 @@ header {
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 4vw, 2rem);
 }
 
 .nav-brand h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
   font-weight: 700;
   letter-spacing: 0.1em;
   background: linear-gradient(135deg, #38bdf8, #e0e7ff);
@@ -544,8 +538,8 @@ header {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-weight: 500;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  padding: clamp(0.3rem, 1vw, 0.5rem) clamp(0.7rem, 2vw, 1rem);
   border-radius: 2rem;
   transition: all 0.3s ease;
   position: relative;
@@ -579,20 +573,20 @@ header {
   width: 100%;
 }
 
-/* Hamburger Menu Styles */
+/* hamburger menu */
 .hamburger-menu {
   display: none;
   flex-direction: column;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: clamp(0.3rem, 1vw, 0.5rem);
   z-index: 1001;
 }
 
 .hamburger-menu span {
-  width: 25px;
-  height: 3px;
+  width: clamp(20px, 5vw, 25px);
+  height: clamp(2px, 0.5vw, 3px);
   background: white;
-  margin: 3px 0;
+  margin: clamp(2px, 0.5vw, 3px) 0;
   transition: all 0.3s ease;
   border-radius: 3px;
 }
@@ -610,8 +604,8 @@ header {
 }
 
 main {
-  margin-top: 120px;
-  padding-top: 2rem;
+  margin-top: clamp(80px, 15vw, 120px);
+  padding-top: clamp(1rem, 3vw, 2rem);
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
@@ -695,11 +689,11 @@ section h2 {
   font-weight: 700;
 }
 .app-img, .music-item img, .video-item img {
-  width: 220px;
-  height: 220px;
+  width: clamp(150px, 25vw, 220px);
+  height: clamp(150px, 25vw, 220px);
   object-fit: cover;
   border-radius: 16px;
-  margin-bottom: 1rem;
+  margin-bottom: clamp(0.5rem, 2vw, 1rem);
   background: #e0e0e0;
 }
 .music-list, .video-list, .news-list {
@@ -727,7 +721,7 @@ footer {
   border-radius: 0 0 18px 18px;
 }
 
-/* Birthday Event Styles - Integrated with Schedule */
+/* birthday with schedule */
 .schedule-item.birthday-event {
   border: 3px solid #ff6b6b;
   background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 142, 83, 0.1));
@@ -750,12 +744,12 @@ footer {
   right: -8px;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: clamp(20px, 4vw, 24px);
+  height: clamp(20px, 4vw, 24px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: clamp(10px, 2.5vw, 12px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -771,13 +765,11 @@ footer {
   background: linear-gradient(135deg, #ff6b6b, #ff8e53);
 }
 
-/* Birthday filter button highlight */
 .filter-btn[data-filter="birthdays"].active {
   background: linear-gradient(135deg, #ff6b6b, #ff8e53);
   border-color: #ff6b6b;
 }
 
-/* Responsive design for birthday cards */
 @media (max-width: 768px) {
   .birthday-emoji {
     width: 20px;
@@ -789,7 +781,6 @@ footer {
 }
 
 @media (max-width: 700px) {
-  /* Navigation Mobile Styles with Hamburger */
   .navbar {
     padding: 1rem;
     flex-direction: row;
@@ -808,17 +799,17 @@ footer {
   
   .nav-links {
     position: fixed;
-    top: 80px;
+    top: clamp(70px, 12vw, 80px);
     left: -100%;
     width: 100%;
-    height: calc(100vh - 80px);
+    height: calc(100vh - clamp(70px, 12vw, 80px));
     background: rgba(30, 41, 59, 0.98);
     backdrop-filter: blur(20px);
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 2rem;
-    padding-top: 3rem;
+    gap: clamp(1rem, 3vw, 2rem);
+    padding-top: clamp(2rem, 5vw, 3rem);
     transition: left 0.3s ease;
     z-index: 1000;
   }
@@ -828,8 +819,8 @@ footer {
   }
   
   .nav-link {
-    font-size: 1.2rem;
-    padding: 1rem 2rem;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    padding: clamp(0.7rem, 2.5vw, 1rem) clamp(1.5rem, 4vw, 2rem);
     width: 80%;
     text-align: center;
     border-radius: 10px;
@@ -842,19 +833,16 @@ footer {
     transform: translateY(-2px);
   }
   
-  /* General Mobile Layout */
   section {
     padding: 1rem;
     margin: 0.5rem;
   }
   
-  /* Music, Video, News Lists */
   .music-list, .video-list, .news-list {
     flex-direction: column;
     gap: 1rem;
   }
   
-  /* Hero Section Mobile - Better Scaling */
   .hero {
     padding: 1.5rem 1rem;
     min-height: 85vh;
@@ -870,7 +858,6 @@ footer {
     line-height: 1.6;
   }
   
-  /* Rotating Member Mobile - Responsive Scaling */
   .rotating-member {
     margin: 1rem 0;
     padding: 0 0.5rem;
@@ -912,7 +899,6 @@ footer {
     font-size: clamp(0.9rem, 3vw, 1.1rem);
   }
   
-  /* Member Buttons Mobile - Touch Friendly */
   .member-buttons {
     flex-wrap: wrap;
     justify-content: center;
@@ -937,7 +923,6 @@ footer {
     border-color: rgba(255, 255, 255, 0.8);
   }
   
-  /* Schedule Page Mobile */
   .schedule-controls {
     flex-direction: column;
     gap: 1rem;
@@ -991,7 +976,7 @@ footer {
   }
 }
 
-/* Coming Soon Styles */
+/* Coming Soon */
 .coming-soon {
   padding: 4rem 2rem;
   text-align: center;
@@ -1060,7 +1045,7 @@ footer {
   }
 }
 
-/* FIMFLIX Fullscreen Styles */
+/* FIMFLIX Fullscreen */
 .fimflix-back-btn {
   position: fixed;
   top: 20px;
