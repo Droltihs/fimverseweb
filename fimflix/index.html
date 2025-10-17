@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIMFLIX</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .fimflix-container {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        
+        .fimflix-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .fimflix-back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999999;
+            pointer-events: auto;
+        }
+        
+        .back-to-fimverse {
+            background: rgba(139, 95, 191, 0.95);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(139, 95, 191, 0.4);
+            display: inline-block;
+            min-width: 120px;
+            text-align: center;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+        }
+        
+        .back-to-fimverse:hover {
+            background: rgba(139, 95, 191, 1);
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(139, 95, 191, 0.6);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .back-to-fimverse:active {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(139, 95, 191, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .fimflix-back-btn {
+                top: 15px;
+                left: 15px;
+            }
+            
+            .back-to-fimverse {
+                padding: 6px 12px;
+                font-size: 10px;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fimflix-back-btn">
+        <a href="/home" class="back-to-fimverse">← Back to FIMVERSE</a>
+    </div>
+    
+    <div class="fimflix-container">
+        <iframe src="https://fimflix.com" 
+                width="100%" 
+                height="100%" 
+                frameborder="0" 
+                allowfullscreen>
+        </iframe>
+    </div>
+</body>
+</html>

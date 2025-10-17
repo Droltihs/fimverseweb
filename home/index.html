@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIMVERSE - LE SSERAFIM</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>FIMVERSE</h1>
+            </div>
+            <div class="nav-links">
+                <a href="/home" class="nav-link active">Home</a>
+                <a href="/schedule" class="nav-link">Schedule</a>
+                <a href="/discography" class="nav-link">Discography</a>
+                <a href="/fimflix" class="nav-link">FIMFLIX</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <div class="rotating-member">
+                <div class="rotating-bg-text">
+                    <span>LE SSERAFIM LE SSERAFIM LE SSERAFIM</span>
+                    <span class="outline-text">LE SSERAFIM LE SSERAFIM LE SSERAFIM</span>
+                </div>
+                <div class="fearless-text">
+                    <span>F<br>E<br>A<br>R<br>L<br>E<br>S<br>S</span>
+                </div>
+                <div class="image-container">
+                    <img id="member-img" src="../images/chaewon.jpeg" alt="Kim Chaewon" class="member-cutout">
+                    <h3 id="member-name">Kim Chaewon</h3>
+                    <div id="member-description" class="member-description">
+                        Chaewon first gained recognition as a member of IZ*ONE, where her soft image contrasted with her intense stage energy. Since joining Le Sserafim, she's showcased a bold transformation, balancing elegance with strength. Fans admire her growth, emotional depth in performances, and natural leadership qualities.
+                    </div>
+                    <div id="member-birthday" class="member-birthday">August 1, 2000</div>
+                    <div class="member-buttons">
+                        <div class="member-btn active" data-member="0">KCW</div>
+                        <div class="member-btn" data-member="1">SKR</div>
+                        <div class="member-btn" data-member="2">HYJ</div>
+                        <div class="member-btn" data-member="3">KZH</div>
+                        <div class="member-btn" data-member="4">HEC</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <script>
+        const members = [
+            {
+                name: 'Kim Chaewon',
+                img: '../images/chaewon.jpeg',
+                birthday: 'August 1, 2000',
+                description: 'Chaewon first gained recognition as a member of IZ*ONE, where her soft image contrasted with her intense stage energy. Since joining Le Sserafim, she\'s showcased a bold transformation, balancing elegance with strength. Fans admire her growth, emotional depth in performances, and natural leadership qualities.'
+            },
+            {
+                name: 'Sakura',
+                img: '../images/sakura.jpeg',
+                birthday: 'March 19, 1998',
+                description: 'Sakura began her career in Japan\'s HKT48 and later captivated international fans in IZ*ONE. With years of experience and a calm, determined persona, she brings poise and professionalism to the group. Her journey from a Japanese idol to a K-pop mainstay reflects her resilience and global appeal.'
+            },
+            {
+                name: 'Huh Yunjin',
+                img: '../images/yunjin.jpeg',
+                birthday: 'October 8, 2001',
+                description: 'Born in Korea and raised in the U.S., Yunjin is a powerful vocalist who initially appeared in Produce 48. After years of quiet training, she re-emerged in Le Sserafim with artistic flair. Known for writing lyrics and speaking her mind, she\'s seen as the group\'s creative soul and emotional anchor.'
+            },
+            {
+                name: 'Kazuha',
+                img: '../images/kazuha.jpeg',
+                birthday: 'August 9, 2003',
+                description: 'A former professional ballerina, Kazuha\'s leap into K-pop surprised many—but her elegance, athleticism, and serene confidence quickly won hearts. Despite being new to the idol world, she\'s become a standout for her poised demeanor and striking visuals that blend grace with edge.'
+            },
+            {
+                name: 'Hong Eunchae',
+                img: '../images/eunchae.jpeg',
+                birthday: 'November 10, 2006',
+                description: 'The youngest member, Eunchae joined with the least experience but quickly became the group\'s energetic heart. Her bright, relatable charm and fast improvement have earned her love from fans. She brings balance to the team with her cheerful spirit and ever-growing performance skills.'
+            }
+        ];
+        let idx = 0;
+        
+        function updateButtons() {
+            document.querySelectorAll('.member-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (index === idx) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        setInterval(() => {
+            idx = (idx + 1) % members.length;
+            document.getElementById('member-img').src = members[idx].img;
+            document.getElementById('member-img').alt = members[idx].name;
+            document.getElementById('member-name').textContent = members[idx].name;
+            document.getElementById('member-description').textContent = members[idx].description;
+            document.getElementById('member-birthday').textContent = members[idx].birthday;
+            updateButtons();
+        }, 3000);
+        </script>
+    </footer>
+</body>
+</html>

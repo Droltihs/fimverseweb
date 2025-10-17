@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIMVERSE - Schedule</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .schedule-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .refresh-btn.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .loading-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .schedule-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .month-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff6b6b;
+            text-align: center;
+            margin: 30px 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .schedule-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .schedule-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+        
+        .schedule-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            gap: 15px;
+        }
+        
+        .days-container {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .days-number {
+            font-size: 24px;
+            line-height: 1;
+        }
+        
+        .days-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .event-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .event-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .event-quick-info {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .expand-icon {
+            width: 24px;
+            height: 24px;
+            color: #ff6b6b;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .schedule-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .event-details {
+            padding: 0 20px 20px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+        
+        .schedule-item.expanded .event-details {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 300px;
+            }
+        }
+        
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: white;
+        }
+        
+        .detail-icon {
+            width: 20px;
+            color: #ff6b6b;
+        }
+        
+        .countdown-display {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .countdown-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .event-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .action-btn.share {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+        }
+        
+        .action-btn.share:hover {
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .empty-state p {
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .schedule-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .schedule-filter {
+                justify-content: center;
+            }
+            
+            .schedule-header {
+                padding: 15px;
+                gap: 12px;
+            }
+            
+            .days-container {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .days-number {
+                font-size: 20px;
+            }
+            
+            .event-title {
+                font-size: 18px;
+            }
+            
+            .event-details {
+                padding: 0 15px 15px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>FIMVERSE</h1>
+            </div>
+            <div class="nav-links">
+                <a href="/home" class="nav-link">Home</a>
+                <a href="/schedule" class="nav-link active">Schedule</a>
+                <a href="/discography" class="nav-link">Discography</a>
+                <a href="/fimflix" class="nav-link">FIMFLIX</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="schedule">
+            <h2>LE SSERAFIM Schedule</h2>
+            
+            <div class="schedule-controls">
+                <button class="refresh-btn" onclick="refreshSchedule()">
+                    <span class="refresh-icon">🔄</span>
+                    Refresh Schedule
+                </button>
+                
+                <div class="schedule-filter">
+                    <button class="filter-btn active" data-filter="all">All Events</button>
+                    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                    <button class="filter-btn" data-filter="birthdays">Birthdays</button>
+                    <button class="filter-btn" data-filter="today">Today</button>
+                </div>
+            </div>
+            
+            <div id="scheduleContainer">
+                <div class="loading-state" style="text-align: center; padding: 40px;">
+                    <div class="loading-spinner" style="margin: 0 auto 20px;"></div>
+                    <p style="color: rgba(255, 255, 255, 0.7);">Loading schedule...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Firebase database URL for real LE SSERAFIM event data
+        const DB_URL = 'https://le-sserafim-schedule-default-rtdb.firebaseio.com/events.json';
+
+        let allEvents = [];
+        let isLoading = false;
+        let currentFilter = 'all';
+        let countdownIntervals = {};
+
+        // Member birthday events
+        const birthdayEvents = [
+            {
+                id: 'birthday-chaewon',
+                title: '🎂 Kim Chaewon Birthday',
+                date: '2025-08-01',
+                time: '00:00',
+                location: 'South Korea',
+                description: 'Kim Chaewon Birthday',
+                note: 'Born August 1, 2000',
+                type: 'birthday',
+                member: 'Kim Chaewon',
+                emoji: '🎂'
+            },
+            {
+                id: 'birthday-sakura',
+                title: '🎂 Sakura Birthday',
+                date: '2025-03-19',
+                time: '00:00',
+                location: 'Japan',
+                description: 'Sakura Birthday',
+                note: 'Born March 19, 1998',
+                type: 'birthday',
+                member: 'Sakura',
+                emoji: '🎂'
+            },
+            {
+                id: 'birthday-yunjin',
+                title: '🎂 Huh Yunjin Birthday',
+                date: '2025-10-08',
+                time: '00:00',
+                location: 'South Korea',
+                description: 'Huh Yunjin Birthday',
+                note: 'Born October 8, 2001',
+                type: 'birthday',
+                member: 'Huh Yunjin',
+                emoji: '🎂'
+            },
+            {
+                id: 'birthday-kazuha',
+                title: '🎂 Kazuha Birthday',
+                date: '2025-08-09',
+                time: '00:00',
+                location: 'Japan',
+                description: 'Kazuha Birthday',
+                note: 'Born August 9, 2003',
+                type: 'birthday',
+                member: 'Kazuha',
+                emoji: '🎂'
+            },
+            {
+                id: 'birthday-eunchae',
+                title: '🎂 Hong Eunchae Birthday',
+                date: '2025-11-10',
+                time: '00:00',
+                location: 'South Korea',
+                description: 'Hong Eunchae Birthday',
+                note: 'Born November 10, 2006',
+                type: 'birthday',
+                member: 'Hong Eunchae',
+                emoji: '🎂'
+            }
+        ];
+
+        // Korean Standard Time utilities
+        const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+        function toKSTInstant(event) {
+            if (!event.date) return null;
+            const [year, month, day] = event.date.split('-').map(Number);
+            const [hour, minute] = (event.time || '00:00').split(':').map(Number);
+            const utcMs = Date.UTC(year, month - 1, day, hour, minute);
+            return new Date(utcMs - KST_OFFSET_MS);
+        }
+
+        function formatDateKST(event) {
+            const instant = toKSTInstant(event);
+            if (!instant) return 'Invalid Date';
+            
+            const hasTime = !!event.time;
+            const options = {
+                timeZone: 'Asia/Seoul',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                ...(hasTime ? { hour: 'numeric', minute: '2-digit', hour12: false } : {})
+            };
+            
+            return new Intl.DateTimeFormat('en-US', options).format(instant) + ' KST';
+        }
+
+        function formatMonthKST(event) {
+            const instant = toKSTInstant(event);
+            if (!instant) return '';
+            
+            return new Intl.DateTimeFormat('en-US', {
+                timeZone: 'Asia/Seoul',
+                month: 'long',
+                year: 'numeric'
+            }).format(instant);
+        }
+
+        function getDaysUntilEvent(event) {
+            const eventTime = toKSTInstant(event);
+            if (!eventTime) return 0;
+            
+            const now = new Date();
+            const diff = eventTime.getTime() - now.getTime();
+            return Math.ceil(diff / (1000 * 60 * 60 * 24));
+        }
+
+        function getCountdown(event) {
+            const eventTime = toKSTInstant(event);
+            if (!eventTime) return "Invalid date";
+            
+            const now = new Date();
+            const diff = eventTime.getTime() - now.getTime();
+            
+            if (diff <= 0) return "Event has passed";
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            
+            return `${days}d ${hours}h ${minutes}m`;
+        }
+
+        function updateCountdown(eventId) {
+            const event = allEvents.find(e => e.id === eventId);
+            if (!event) return;
+            
+            const countdownElement = document.getElementById(`countdown-${eventId}`);
+            if (countdownElement) {
+                countdownElement.textContent = getCountdown(event);
+            }
+        }
+
+        function startCountdownTimer(eventId) {
+            // Clear existing interval
+            if (countdownIntervals[eventId]) {
+                clearInterval(countdownIntervals[eventId]);
+            }
+            
+            // Start new interval
+            countdownIntervals[eventId] = setInterval(() => {
+                updateCountdown(eventId);
+            }, 60000); // Update every minute
+        }
+
+        function filterEvents() {
+            const now = new Date();
+            let events = [...allEvents];
+            
+            // Add only the next upcoming birthday for each member (no duplicates)
+            birthdayEvents.forEach(birthdayEvent => {
+                const [year, month, day] = birthdayEvent.date.split('-').map(Number);
+                const currentYear = now.getFullYear();
+                
+                // Check if this year's birthday has passed
+                const thisYearBirthday = new Date(currentYear, month - 1, day);
+                const nextYearBirthday = new Date(currentYear + 1, month - 1, day);
+                
+                // Use this year's birthday if it hasn't passed, otherwise next year's
+                const nextBirthday = thisYearBirthday >= now ? thisYearBirthday : nextYearBirthday;
+                const yearToUse = nextBirthday.getFullYear();
+                
+                const singleBirthdayEvent = {
+                    ...birthdayEvent,
+                    id: `${birthdayEvent.id}-${yearToUse}`,
+                    date: `${yearToUse}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`,
+                    key: `${birthdayEvent.id}-${yearToUse}`
+                };
+                
+                events.push(singleBirthdayEvent);
+            });
+            
+            return events.filter(event => {
+                const eventTime = toKSTInstant(event);
+                if (!eventTime) return false;
+                
+                switch (currentFilter) {
+                    case 'upcoming':
+                        return eventTime > now && event.type !== 'birthday';
+                    case 'birthdays':
+                        return eventTime > now && event.type === 'birthday';
+                    case 'today':
+                        const today = new Date();
+                        const eventDate = new Date(eventTime);
+                        return eventDate.toDateString() === today.toDateString();
+                    default:
+                        return eventTime > now; // Only show upcoming events by default
+                }
+            }).sort((a, b) => {
+                const timeA = toKSTInstant(a);
+                const timeB = toKSTInstant(b);
+                return timeA - timeB;
+            });
+        }
+
+        async function fetchEvents(forceRefresh = false) {
+            if (isLoading) return;
+            
+            isLoading = true;
+            const container = document.getElementById('scheduleContainer');
+            
+            try {
+                console.log('🔄 Fetching events from Firebase...');
+                
+                const response = await fetch(DB_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const rawData = await response.json();
+                
+                if (rawData) {
+                    // Convert Firebase object to array format
+                    const eventsArray = Object.entries(rawData)
+                        .map(([key, event]) => ({ 
+                            id: key, 
+                            key: key, 
+                            ...event 
+                        }))
+                        .filter(event => {
+                            const eventTime = toKSTInstant(event);
+                            return eventTime && eventTime > new Date();
+                        })
+                        .sort((a, b) => {
+                            const timeA = toKSTInstant(a);
+                            const timeB = toKSTInstant(b);
+                            return timeA - timeB;
+                        });
+                    
+                    allEvents = eventsArray;
+                    console.log('✅ Events loaded:', allEvents.length);
+                } else {
+                    allEvents = [];
+                    console.log('⚠️ No events found in database');
+                }
+                
+                renderSchedule();
+                
+            } catch (error) {
+                console.error('❌ Error fetching events:', error);
+                
+                // Show error message
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Unable to Load Events</h3>
+                        <p>There was an error connecting to the event database. Please check your internet connection and try refreshing.</p>
+                        <button class="refresh-btn" onclick="fetchEvents(true)" style="margin-top: 20px;">
+                            <span class="refresh-icon">🔄</span>
+                            Try Again
+                        </button>
+                    </div>
+                `;
+                
+                allEvents = [];
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        function renderSchedule() {
+            const container = document.getElementById('scheduleContainer');
+            const filteredEvents = filterEvents();
+            
+            if (filteredEvents.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No Events Found</h3>
+                        <p>No events match the current filter. Try refreshing or selecting a different filter.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            let lastMonth = '';
+            
+            filteredEvents.forEach(event => {
+                const month = formatMonthKST(event);
+                if (month !== lastMonth) {
+                    html += `<div class="month-header">${month}</div>`;
+                    lastMonth = month;
+                }
+                
+                const daysUntil = getDaysUntilEvent(event);
+                const countdown = getCountdown(event);
+                const isBirthday = event.type === 'birthday';
+                const birthdayClass = isBirthday ? ' birthday-event' : '';
+                const birthdayEmoji = isBirthday ? event.emoji : '';
+                
+                html += `
+                    <div class="schedule-item${birthdayClass}" data-event-id="${event.id}" onclick="toggleEvent('${event.id}')">
+                        <div class="schedule-header">
+                            <div class="days-container${isBirthday ? ' birthday-counter' : ''}">
+                                <div class="days-number">${Math.max(0, daysUntil)}</div>
+                                <div class="days-label">days</div>
+                                ${isBirthday ? `<div class="birthday-emoji">${birthdayEmoji}</div>` : ''}
+                            </div>
+                            <div class="event-info">
+                                <div class="event-title">${event.title}</div>
+                                <div class="event-quick-info">${formatDateKST(event)} • ${event.location}</div>
+                            </div>
+                            <div class="expand-icon">⌄</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="countdown-display">
+                                <div class="countdown-text" id="countdown-${event.id}">${countdown}</div>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">📅</span>
+                                <span>${formatDateKST(event)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-icon">📍</span>
+                                <span>${event.location}</span>
+                            </div>
+                            ${event.description ? `
+                            <div class="detail-row">
+                                <span class="detail-icon">📝</span>
+                                <span>${event.description}</span>
+                            </div>
+                            ` : ''}
+                            ${event.note ? `
+                            <div class="detail-row">
+                                <span class="detail-icon">💡</span>
+                                <span>${event.note}</span>
+                            </div>
+                            ` : ''}
+                            <div class="event-actions">
+                                <button class="action-btn share" onclick="shareEvent('${event.id}', event)">Share Event</button>
+                                ${event.link ? `<button class="action-btn" onclick="openLink('${event.link}', event)">More Info</button>` : ''}
+                                ${event.stream ? `<button class="action-btn" onclick="openLink('${event.stream}', event)">Watch Stream</button>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Start countdown timer for this event
+                setTimeout(() => startCountdownTimer(event.id), 100);
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function toggleEvent(eventId) {
+            const element = document.querySelector(`[data-event-id="${eventId}"]`);
+            element.classList.toggle('expanded');
+        }
+
+        function shareEvent(eventId, event) {
+            event.stopPropagation();
+            const eventData = allEvents.find(e => e.id === eventId);
+            if (!eventData) return;
+            
+            const shareText = `🎵 ${eventData.title}\n📅 ${formatDateKST(eventData)}\n📍 ${eventData.location}\n\n${eventData.description || 'Don\'t miss this LE SSERAFIM event!'}\n\n#LESSERAFIM #FIMVERSE`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: eventData.title,
+                    text: shareText,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Event details copied to clipboard!');
+                }).catch(() => {
+                    // Final fallback: show in alert
+                    alert(shareText);
+                });
+            }
+        }
+
+        function openLink(url, event) {
+            event.stopPropagation();
+            window.open(url, '_blank');
+        }
+
+        function refreshSchedule() {
+            const btn = document.querySelector('.refresh-btn');
+            const icon = btn.querySelector('.refresh-icon');
+            
+            if (isLoading) return;
+            
+            btn.classList.add('loading');
+            icon.innerHTML = '<div class="loading-spinner"></div>';
+            btn.disabled = true;
+            
+            // Fetch fresh data from Firebase
+            fetchEvents(true).finally(() => {
+                btn.classList.remove('loading');
+                icon.innerHTML = '🔄';
+                btn.disabled = false;
+            });
+        }
+
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active state
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update filter and re-render
+                    currentFilter = this.dataset.filter;
+                    renderSchedule();
+                });
+            });
+            
+            // Initial data fetch
+            fetchEvents();
+        });
+
+        // Cleanup intervals when page unloads
+        window.addEventListener('beforeunload', function() {
+            Object.values(countdownIntervals).forEach(interval => {
+                clearInterval(interval);
+            });
+        });
+    </script>
+</body>
+</html>
