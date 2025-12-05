@@ -20,9 +20,9 @@ main {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 20% 30%, rgba(123, 166, 222, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+    radial-gradient(circle at 50% 50%, rgba(123, 166, 222, 0.1) 0%, transparent 70%);
   pointer-events: none;
   animation: pulse 8s ease-in-out infinite;
 }
@@ -47,8 +47,8 @@ main {
 
 .app-badge {
   display: inline-block;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
-  border: 2px solid rgba(139, 92, 246, 0.4);
+  background: linear-gradient(135deg, rgba(123, 166, 222, 0.2), rgba(59, 130, 246, 0.2));
+  border: 2px solid rgba(123, 166, 222, 0.4);
   padding: 0.75rem 2rem;
   border-radius: 3rem;
   font-size: 0.9rem;
@@ -64,24 +64,24 @@ main {
 
 @keyframes glow {
   0%, 100% {
-    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 8px 32px rgba(123, 166, 222, 0.2);
   }
   50% {
-    box-shadow: 0 8px 48px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 8px 48px rgba(123, 166, 222, 0.4);
   }
 }
 
 .app-main-title {
   font-size: clamp(3.5rem, 10vw, 6.5rem);
   font-weight: 900;
-  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 30%, #c7d2fe 60%, #a78bfa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 30%, #c7d2fe 60%, #7BA6DE 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 1.5rem;
   letter-spacing: -0.04em;
   line-height: 1;
-  text-shadow: 0 0 80px rgba(139, 92, 246, 0.5);
+  text-shadow: 0 0 80px rgba(123, 166, 222, 0.5);
 }
 
 .app-main-subtitle {
@@ -113,8 +113,8 @@ main {
   padding: 0.75rem;
   box-shadow:
     0 25px 50px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(139, 92, 246, 0.2),
-    inset 0 0 20px rgba(139, 92, 246, 0.1);
+    0 0 0 1px rgba(123, 166, 222, 0.2),
+    inset 0 0 20px rgba(123, 166, 222, 0.1);
   position: relative;
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   animation: floatPhone 6s ease-in-out infinite;
@@ -165,9 +165,9 @@ main {
   transform: scale(1);
   z-index: 5;
   box-shadow:
-    0 30px 80px rgba(139, 92, 246, 0.4),
-    0 0 0 1px rgba(139, 92, 246, 0.3),
-    inset 0 0 30px rgba(139, 92, 246, 0.15);
+    0 30px 80px rgba(123, 166, 222, 0.4),
+    0 0 0 1px rgba(123, 166, 222, 0.3),
+    inset 0 0 30px rgba(123, 166, 222, 0.15);
 }
 
 .phone-3 {
@@ -178,8 +178,8 @@ main {
 .phone-mockup:hover {
   transform: translateY(-10px) scale(1.05);
   box-shadow:
-    0 35px 70px rgba(139, 92, 246, 0.5),
-    0 0 0 1px rgba(139, 92, 246, 0.4);
+    0 35px 70px rgba(123, 166, 222, 0.5),
+    0 0 0 1px rgba(123, 166, 222, 0.4);
 }
 
 .phone-2.center-phone:hover {
@@ -201,7 +201,7 @@ main {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 30% 40%, rgba(139, 92, 246, 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 30% 40%, rgba(123, 166, 222, 0.3) 0%, transparent 60%),
     radial-gradient(circle at 70% 70%, rgba(59, 130, 246, 0.2) 0%, transparent 60%);
   animation: screenGlow 4s ease-in-out infinite;
 }
@@ -244,7 +244,7 @@ main {
 .mockup-logo {
   font-size: 2.5rem;
   font-weight: 900;
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #7BA6DE 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -267,8 +267,8 @@ main {
 }
 
 .mockup-feature-item {
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: rgba(123, 166, 222, 0.15);
+  border: 1px solid rgba(123, 166, 222, 0.3);
   border-radius: 1rem;
   padding: 0.75rem 1.25rem;
   font-size: 0.95rem;
@@ -279,8 +279,8 @@ main {
 }
 
 .mockup-feature-item:hover {
-  background: rgba(139, 92, 246, 0.25);
-  border-color: rgba(139, 92, 246, 0.5);
+  background: rgba(123, 166, 222, 0.25);
+  border-color: rgba(123, 166, 222, 0.5);
   transform: translateX(5px);
 }
 
@@ -322,15 +322,15 @@ main {
 }
 
 .ios-download {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #7BA6DE 0%, #6A95CD 100%);
   color: #ffffff;
-  border-color: rgba(139, 92, 246, 0.3);
+  border-color: rgba(123, 166, 222, 0.3);
 }
 
 .ios-download:hover {
   transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 20px 60px rgba(139, 92, 246, 0.5);
-  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 20px 60px rgba(123, 166, 222, 0.5);
+  border-color: rgba(123, 166, 222, 0.6);
 }
 
 .android-download {
@@ -385,13 +385,13 @@ main {
   margin-bottom: 0;
   padding: 1.5rem 2rem;
   background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.5));
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(123, 166, 222, 0.2);
   border-radius: 1rem;
   backdrop-filter: blur(20px);
 }
 
 .disclaimer-text strong {
-  color: #a78bfa;
+  color: #7BA6DE;
   font-weight: 700;
 }
 
@@ -492,8 +492,8 @@ main {
 
   .phone-2.center-phone {
     box-shadow:
-      0 30px 80px rgba(139, 92, 246, 0.4),
-      0 0 0 1px rgba(139, 92, 246, 0.3);
+      0 30px 80px rgba(123, 166, 222, 0.4),
+      0 0 0 1px rgba(123, 166, 222, 0.3);
   }
 
   .app-download-buttons {
